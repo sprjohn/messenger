@@ -1,4 +1,4 @@
-package org.john.javabrains;
+package org.john.javabrains.messenger;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
