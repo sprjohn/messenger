@@ -10,11 +10,6 @@ import java.util.Map;
 public class MessageService {
     private Map<Long, Message> messages = DummyDatabase.getMessages();
 
-    public MessageService() {
-        messages.put(1L, new Message(1L, "Hello World!", "John"));
-        messages.put(2L, new Message(2L, "Hello Jersey!", "John"));
-    }
-
     public List<Message> getAllMessages() {
         return new ArrayList<>(messages.values());
     }

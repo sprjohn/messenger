@@ -13,6 +13,11 @@ public class DummyDatabase {
     private static Map<Long, Message> messages = new ConcurrentHashMap<>();
     private static Map<Long, Profile> profiles = new ConcurrentHashMap<>();
 
+    static {
+        messages.put(1L, new Message(1L, "Hello World!", "John"));
+        messages.put(2L, new Message(2L, "Hello Jersey!", "John"));
+    }
+
     public static Map<Long, Message> getMessages() {
         return messages;
     }
