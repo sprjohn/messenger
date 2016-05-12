@@ -1,7 +1,9 @@
 package org.john.javabrains.messenger.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 
+@XmlRootElement
 public class Message {
 
     private long id;
