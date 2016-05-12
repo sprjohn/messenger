@@ -1,14 +1,14 @@
 package org.john.javabrains.messenger.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDate;
+import java.util.Date;
 
 @XmlRootElement
 public class Message {
 
     private long id;
     private String message;
-    private LocalDate created;
+    private Date created;
     private String author;
 
     /**
@@ -20,7 +20,7 @@ public class Message {
         this.id = id;
         this.message = message;
         this.author = author;
-        this.created = LocalDate.now();
+        this.created = new Date();
     }
 
     public long getId() {
@@ -39,11 +39,11 @@ public class Message {
         this.message = message;
     }
 
-    public LocalDate getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
