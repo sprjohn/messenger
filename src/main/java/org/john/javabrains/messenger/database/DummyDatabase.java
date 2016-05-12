@@ -6,6 +6,9 @@ import org.john.javabrains.messenger.model.Profile;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Dummy database class
+ */
 public class DummyDatabase {
     private static Map<Long, Message> messages = new ConcurrentHashMap<>();
     private static Map<Long, Profile> profiles = new ConcurrentHashMap<>();
