@@ -19,6 +19,10 @@ public class ProfileService {
     }
 
     public Profile addProfile(Profile profile) {
+        if (profiles.get(profile.getProfileName()) != null) {
+            return null;
+        }
+
         profile.setId(profiles.size() + 1);
         profiles.put(profile.getProfileName(), profile);
 
@@ -26,10 +30,13 @@ public class ProfileService {
     }
 
     public Profile updateProfile(Profile profile) {
-        if (profiles.get(profile.getProfileName()) == null) {
+        Profile existingProfile = profiles.get(profile.getProfileName());
+
+        if (existingProfile == null) {
             return null;
         }
 
+        profile.setId(existingProfile.getId());
         profiles.put(profile.getProfileName(), profile);
 
         return profile;
