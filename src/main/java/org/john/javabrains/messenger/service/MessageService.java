@@ -3,11 +3,7 @@ package org.john.javabrains.messenger.service;
 import org.john.javabrains.messenger.database.DummyDatabase;
 import org.john.javabrains.messenger.model.Message;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class MessageService {
     private Map<Long, Message> messages = DummyDatabase.getMessages();
@@ -17,9 +13,19 @@ public class MessageService {
     }
 
     public List<Message> getMessagesForYear(int year) {
-        return messages.values().stream()
-                .filter(m -> m.getCreated().getYear() == year)
-                .collect(Collectors.toList());
+        List<Message> messagesForYear = new ArrayList<>();
+
+        Calendar cal = Calendar.getInstance();
+
+        for (Message message : messages.values()) {
+            cal.setTime(message.getCreated());
+
+            if (cal.get(Calendar.YEAR) == year) {
+                messagesForYear.add(message);
+            }
+        }
+
+        return messagesForYear;
     }
 
     public List<Message> getAllMessagePaginated(int start, int size) {
