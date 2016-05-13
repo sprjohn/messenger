@@ -5,6 +5,7 @@ import org.john.javabrains.messenger.model.Comment;
 import org.john.javabrains.messenger.model.ErrorMessage;
 import org.john.javabrains.messenger.model.Message;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class CommentService {
         Map<Long, Comment> comments = message.getComments();
 
         if (comments == null) {
-            throw new WebApplicationException(response);
+            throw new NotFoundException("Not found!");
         }
 
         return comments;
