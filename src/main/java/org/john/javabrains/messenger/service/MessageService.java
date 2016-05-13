@@ -1,6 +1,7 @@
 package org.john.javabrains.messenger.service;
 
 import org.john.javabrains.messenger.database.DummyDatabase;
+import org.john.javabrains.messenger.exception.DataNotFoundException;
 import org.john.javabrains.messenger.model.Message;
 
 import java.util.*;
@@ -39,7 +40,13 @@ public class MessageService {
     }
 
     public Message getMessage(long id) {
-        return messages.get(id);
+        Message message = messages.get(id);
+
+        if (message == null) {
+            throw new DataNotFoundException("Message with id " + id + " not found");
+        }
+
+        return message;
     }
 
     public synchronized Message addMessage(Message message) {
