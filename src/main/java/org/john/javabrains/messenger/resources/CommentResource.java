@@ -1,23 +1,49 @@
 package org.john.javabrains.messenger.resources;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.john.javabrains.messenger.model.Comment;
+import org.john.javabrains.messenger.service.CommentService;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CommentResource {
+    private CommentService commentService = new CommentService();
+
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test() {
-        return "New subresource";
+    public List<Comment> getAllCommentsForMessage(@PathParam("messageId") long messageId) {
+        return commentService.getAllComments(messageId);
+    }
+
+    @POST
+    public Comment addCommentForMessage(@PathParam("messageId") long messageId, Comment comment) {
+        return commentService.addComment(messageId, comment);
+    }
+
+    @PUT
+    @Path("/{commentId}")
+    public Comment updateCommentForMessage(@PathParam("messageId") long messageId,
+                                           @PathParam("commentId") long commentId,
+                                           Comment comment) {
+        comment.setId(commentId);
+
+        return commentService.updateComment(messageId, comment);
+    }
+
+    @DELETE
+    @Path("/{commentId}")
+    public Comment deleteCommentForMessage(@PathParam("messageId") long messageId,
+                                           @PathParam("commentId") long commentId) {
+        return commentService.removeCommentForMessage(messageId, commentId);
     }
 
     @GET
     @Path("/{commentId}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getCommentForMessage(@PathParam("messageId") int messageId, @PathParam("commentId") int commentId) {
-        return "Comment #" + commentId + " for message #" + messageId;
+    public Comment getCommentForMessage(@PathParam("messageId") long messageId,
+                                        @PathParam("commentId") long commentId) {
+        return commentService.getComment(messageId, commentId);
     }
 }

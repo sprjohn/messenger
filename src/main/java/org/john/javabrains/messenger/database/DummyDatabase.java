@@ -1,5 +1,6 @@
 package org.john.javabrains.messenger.database;
 
+import org.john.javabrains.messenger.model.Comment;
 import org.john.javabrains.messenger.model.Message;
 import org.john.javabrains.messenger.model.Profile;
 
@@ -14,7 +15,11 @@ public class DummyDatabase {
     private static Map<String, Profile> profiles = new ConcurrentHashMap<>();
 
     static {
-        messages.put(1L, new Message(1L, "Hello World!", "John"));
+        Message m1 = new Message(1L, "Hello World!", "John");
+        Comment comment = new Comment(1L, "Nice first message!", "john");
+        m1.getComments().put(1L, comment);
+
+        messages.put(1L, m1);
         messages.put(2L, new Message(2L, "Hello Jersey!", "John"));
 
         profiles.put("john", new Profile("Sprinkle", "John", "john", 1L));
