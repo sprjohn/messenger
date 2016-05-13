@@ -15,7 +15,11 @@ public class MessageResource {
     MessageService messageService = new MessageService();
 
     @GET
-    public List<Message> getMessages() {
+    public List<Message> getMessages(@QueryParam("year") int year) {
+        if (year > 0) {
+            return messageService.getMessagesForYear(year);
+        }
+
         return messageService.getAllMessages();
     }
 
