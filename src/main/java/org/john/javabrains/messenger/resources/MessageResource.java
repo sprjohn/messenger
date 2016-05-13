@@ -5,7 +5,12 @@ import org.john.javabrains.messenger.resources.beans.MessageFilterBean;
 import org.john.javabrains.messenger.service.MessageService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("/messages")
@@ -32,8 +37,15 @@ public class MessageResource {
     }
 
     @POST
-    public Message addMessage(Message message) {
-        return messageService.addMessage(message);
+    public Response addMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
+        Message addedMessage = messageService.addMessage(message);
+
+        String newMessageId = String.valueOf(addedMessage.getId());
+        URI uri = uriInfo.getAbsolutePathBuilder().path(newMessageId).build();
+
+        return Response.created(uri)
+                .entity(addedMessage)
+                .build();
     }
 
     @PUT
