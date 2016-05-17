@@ -21,7 +21,29 @@ public class MessageResource {
     MessageService messageService = new MessageService();
 
     @GET
-    public List<Message> getMessages(@BeanParam MessageFilterBean messageFilterBean) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getJsonMessages(@BeanParam MessageFilterBean messageFilterBean) {
+        System.out.println("JSON method called");
+
+        final int year = messageFilterBean.getYear();
+        final int start = messageFilterBean.getStart();
+        final int size = messageFilterBean.getSize();
+
+        if (year > 0) {
+            return messageService.getMessagesForYear(year);
+        }
+        if (start >= 0 && size > 0) {
+            return messageService.getAllMessagePaginated(start, size);
+        }
+
+        return messageService.getAllMessages();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Message> getXMLMessages(@BeanParam MessageFilterBean messageFilterBean) {
+        System.out.println("XML method called");
+
         final int year = messageFilterBean.getYear();
         final int start = messageFilterBean.getStart();
         final int size = messageFilterBean.getSize();
@@ -37,7 +59,21 @@ public class MessageResource {
     }
 
     @POST
-    public Response addMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addJSONMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
+        Message addedMessage = messageService.addMessage(message);
+
+        String newMessageId = String.valueOf(addedMessage.getId());
+        URI uri = uriInfo.getAbsolutePathBuilder().path(newMessageId).build();
+
+        return Response.created(uri)
+                .entity(addedMessage)
+                .build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public Response addXMLMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
         Message addedMessage = messageService.addMessage(message);
 
         String newMessageId = String.valueOf(addedMessage.getId());
